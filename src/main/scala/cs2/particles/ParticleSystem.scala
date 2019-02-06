@@ -7,8 +7,13 @@ class ParticleSystem(private var origin:Vec2) {
   private var parts = List[Particle]()
   
   def addParticle():Unit = {
-    parts ::= new Particle(new Vec2(origin), 
-                           new Vec2(math.random, math.random))
+    if(math.random < 0.5) {
+      parts ::= new SquareParticle(new Vec2(origin), 
+                           new Vec2(math.random*2 - 1, math.random*2 - 1))
+    } else {
+      parts ::= new Particle(new Vec2(origin), 
+                           new Vec2(math.random*2 - 1, math.random*2 - 1))
+    }
   }
   
   def display(g:GraphicsContext):Unit = {
