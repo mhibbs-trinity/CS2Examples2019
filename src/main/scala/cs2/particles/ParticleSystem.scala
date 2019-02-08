@@ -3,15 +3,15 @@ package cs2.particles
 import cs2.util.Vec2
 import scalafx.scene.canvas.GraphicsContext
 
-class ParticleSystem(private var origin:Vec2) {
-  private var parts = List[Particle]()
+class ParticleSystem(protected var origin:Vec2) {
+  protected var parts = List[Particle]()
   
   def addParticle():Unit = {
     if(math.random < 0.5) {
       parts ::= new SquareParticle(new Vec2(origin), 
                            new Vec2(math.random*2 - 1, math.random*2 - 1))
     } else {
-      parts ::= new Particle(new Vec2(origin), 
+      parts ::= new RoundParticle(new Vec2(origin), 
                            new Vec2(math.random*2 - 1, math.random*2 - 1))
     }
   }

@@ -22,12 +22,13 @@ object ParticleSystemApp {
         var systems = List[ParticleSystem]()
         
         canvas.onMouseClicked = (e:MouseEvent) => {
-          systems ::= new ParticleSystem(new Vec2(e.x, e.y))
+          systems ::= new RainbowParticleSystem(new Vec2(e.x, e.y))
         }
         
+        val bg = new RainbowBackground(600, 400)
+        
         val timer = AnimationTimer(t => {
-          g.fill = Color.White
-          g.fillRect(0,0, 600,400)
+          bg.display(g)
           for(sys <- systems) {
             sys.display(g)
             sys.timeStep()
