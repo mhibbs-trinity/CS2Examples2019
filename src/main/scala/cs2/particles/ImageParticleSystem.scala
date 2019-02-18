@@ -8,7 +8,7 @@ class ImageParticleSystem(o:Vec2) extends ParticleSystem(o) {
   private val img = new Image("file:smoke.png")
   
   override def addParticle():Unit = {
-    parts ::= new ImageParticle(new Vec2(origin), 
+    parts += new ImageParticle(new Vec2(origin), 
                      new Vec2(math.random*2 - 1, math.random*2 - 1),
                      img)
     
