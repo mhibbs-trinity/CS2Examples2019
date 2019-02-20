@@ -21,10 +21,12 @@ class ParticleSystem(protected var origin:Vec2) {
     parts.foreach(_.display(g))
   }
   def timeStep():Unit = {
+    val toRemove = Buffer[Particle]()
     for(x <- parts) {
-      val toKill = x.timeStep()
-      if(toKill) parts -= x
+      val toNoLongerExist = x.timeStep()
+      if(toNoLongerExist) toRemove += x
     }
+    parts --= toRemove
   }
   def applyForce(acc:Vec2):Unit = {
     parts.foreach(_.applyForce(acc))
