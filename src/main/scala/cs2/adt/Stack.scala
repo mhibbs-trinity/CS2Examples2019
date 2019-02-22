@@ -7,6 +7,9 @@ trait Stack[A] {
   def isEmpty():Boolean
 }
 
+object Stack {
+  def apply[A : Manifest]():Stack[A] = new ArrayStack[A]()
+}
 
 import org.junit._
 import org.junit.Assert._
@@ -15,7 +18,7 @@ class StackTester {
   var s:Stack[Int] = null
   
   @Before def initStack() {
-    s = new ArrayStack[Int]()
+    s = Stack[Int]()
   }
   
   @Test def checkIsEmptyWithEmpty() {
