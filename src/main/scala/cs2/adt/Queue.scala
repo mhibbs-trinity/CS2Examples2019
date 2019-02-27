@@ -9,7 +9,7 @@ trait Queue[A] {
 
 object Queue {
   def apply[A : Manifest]():Queue[A] = {
-    new ArrayQueue[A]()
+    new LinkedQueue[A]()
   }
 }
 
