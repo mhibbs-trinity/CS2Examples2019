@@ -10,4 +10,7 @@ trait List[A] {
   def length():Int
   
   def prepend(elem:A) = insert(0,elem)
+  def append(elem:A) = insert(length,elem)
+  def apply(idx:Int):A = get(idx)
+  def update(idx:Int, elem:A) = set(idx,elem)
 }
