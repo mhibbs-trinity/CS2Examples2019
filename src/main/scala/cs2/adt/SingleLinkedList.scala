@@ -1,14 +1,15 @@
 package cs2.adt
 
 class SingleLinkedList[A] extends List[A] {
-  private class Node(var data:A, var next:Node)
-  private var head:Node = null
+  protected class Node(var data:A, var next:Node)
+  protected var myhead:Node = null
+  protected var len:Int = 0
   
-  def isEmpty():Boolean = head == null
-  //def length():Int = 
+  //def isEmpty():Boolean = myhead == null
+  def length():Int = len
   
   private def getNodeByIndex(idx:Int):Node = {
-    var rover:Node = head
+    var rover:Node = myhead
     for(i <- 0 until idx) rover = rover.next
     rover
   }
@@ -20,17 +21,19 @@ class SingleLinkedList[A] extends List[A] {
 
   def insert(idx:Int, elem:A):Unit = {
     if(idx == 0) {
-      head = new Node(elem, head) 
+      myhead = new Node(elem, myhead)
     } else {
       val before = getNodeByIndex(idx-1)
       before.next = new Node(elem, before.next)
     }
+    len += 1
   }
   
   def remove(idx:Int):A = {
+    len -= 1
     if(idx == 0) {
-      val tmp = head.data
-      head = head.next
+      val tmp = myhead.data
+      myhead = myhead.next
       tmp
     } else {
       val before = getNodeByIndex(idx-1)
