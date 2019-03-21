@@ -16,7 +16,7 @@ trait List[A] {
 }
 
 object List {
-  def apply[A]():List[A] = new SingleLinkedList[A]() 
+  def apply[A : Manifest]():List[A] = new DoubleLinkedList[A]() 
 }
 
 import org.junit._
