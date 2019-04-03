@@ -37,19 +37,29 @@ class BinarySearchTree[A <% Ordered[A]] {
         if(left == null) right
         else if(right == null) left
         else {
-          left.passUpMaxKid
+          val (d,n) = left.passUpMaxKid
+          data = d
+          left = n
+          this
         }
       } else {
         if(elem < data) left = left.removeBelow(elem)
         else right = right.removeBelow(elem)
-        
+        this
       }
     }
     
+    def getMax():A = {
+      if(right == null) data
+      else right.getMax
+    }
+   
     
   }
   
   private var root:Node = null
+  
+  def isEmpty():Boolean = root == null
   
   def contains(elem:A):Boolean = {
     if(root == null) false
@@ -62,7 +72,16 @@ class BinarySearchTree[A <% Ordered[A]] {
   }
   
   def remove(elem:A):Unit = {
-    if(root != null) root.removeBelow(elem)
+    if(root != null) root = root.removeBelow(elem)
+  }
+  
+  def removeLargest():A = {
+    val mx = root.getMax
+    remove(mx)
+    mx
+  }
+  def returnLargest():A = {
+    root.getMax
   }
   
   
