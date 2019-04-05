@@ -84,6 +84,32 @@ class BinarySearchTree[A <% Ordered[A]] {
     root.getMax
   }
   
+  def printPreOrder():Unit = {
+    def processNode(curr:Node) {
+      print(curr.data + ", ")
+      if(curr.left != null) processNode(curr.left)
+      if(curr.right!= null) processNode(curr.right)
+    }
+    processNode(root)
+  }
+  
+  def printPreOrderStack():Unit = {
+    val stk = new LinkedStack[Node]()
+    stk.push(root)
+    while(!stk.isEmpty) {
+      val curr = stk.pop
+      if(curr != null) {
+        print(curr.data + ", ")
+        stk.push(curr.right)
+        stk.push(curr.left)
+      }
+    }
+    println
+  }
+  
+  
   
   
 }
+
+
