@@ -18,9 +18,13 @@ class ArrayStack[A: Manifest] extends Stack[A] {
     arr(top) = elem
   }
 
-  def peek(): A = { arr(top) }
+  def peek(): A = { 
+    if(isEmpty) throw new Exception("Can't peek an empty stack")
+    arr(top)
+  }
 
   def pop(): A = {
+    if(isEmpty) throw new Exception("Can't pop from an empty stack")
     top -= 1
     arr(top+1)
   }
