@@ -1,6 +1,7 @@
 package cs2.parallel
 
 import io.StdIn._
+import cs2.util.TimeLogger
 
 object Multithreading {
   
@@ -153,23 +154,42 @@ object Multithreading {
   import java.util.concurrent._
   def factExec(n:BigInt):BigInt = {
     val service = Executors.newCachedThreadPool
-    val future1 = service.submit(new Callable[BigInt] {
-      def call:BigInt = {
-        (BigInt(1) until n/2).product  
-      }
+    val futures:Array[Future[BigInt]] = Array.tabulate(10)(idx => {
+      service.submit(new Callable[BigInt] {
+        def call:BigInt = {
+          (BigInt(idx+1) to n by 10).product
+        }
+      })
     })
-    val future2 = service.submit(new Callable[BigInt] {
-      def call:BigInt = {
-        (n/2 to n).product  
-      }
-    })
-    val res = future1.get * future2.get
+    val res = futures.map(_.get).product
     service.shutdown
     res
   }
   
   def main(args:Array[String]):Unit = {
-    println(factExec(50000))
+    val log = new TimeLogger()
+    
+    val n = 1000000
+    
+    log.reset
+    //factRecur(n)
+    log.logTime
+    
+    log.reset
+    factFor(n)
+    log.logTime
+    
+    log.reset
+    factCollect(n)
+    log.logTime
+    
+    log.reset
+    factExec(n)
+    log.logTime
+    
+    
+    
+    
     //simpleWaitNotify
     //tryToDeadlock
     //simpleThreadCount
