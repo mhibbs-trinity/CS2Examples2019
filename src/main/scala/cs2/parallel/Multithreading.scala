@@ -150,14 +150,18 @@ object Multithreading {
     val one:BigInt = 1
     (one to n).reduce(_*_) //.product
   }
+  def factCollectPar(n:BigInt):BigInt = {
+    val one:BigInt = 1
+    (one to n).par.reduce(_*_) //.product
+  }
   
   import java.util.concurrent._
-  def factExec(n:BigInt):BigInt = {
+  def factExec(n:BigInt, k:Int):BigInt = {
     val service = Executors.newCachedThreadPool
-    val futures:Array[Future[BigInt]] = Array.tabulate(10)(idx => {
+    val futures:Array[Future[BigInt]] = Array.tabulate(k)(idx => {
       service.submit(new Callable[BigInt] {
         def call:BigInt = {
-          (BigInt(idx+1) to n by 10).product
+          (BigInt(idx+1) to n by k).product
         }
       })
     })
@@ -169,7 +173,13 @@ object Multithreading {
   def main(args:Array[String]):Unit = {
     val log = new TimeLogger()
     
-    val n = 1000000
+    val n = 100000
+    
+    var x = 0
+    for(i <- (1 to 1000000).par) {
+      x = x + 1
+    }
+    println(x)
     
     log.reset
     //factRecur(n)
@@ -184,9 +194,15 @@ object Multithreading {
     log.logTime
     
     log.reset
-    factExec(n)
+    factCollectPar(n)
     log.logTime
     
+    for(i <- 1 to 40) {
+      log.reset
+      factExec(n, i)
+      print("i = " + i + ": ")
+      log.logTime
+    }
     
     
     
